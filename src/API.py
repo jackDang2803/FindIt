@@ -42,14 +42,18 @@ def upload_image():
 
     # Process the file here (e.g., save it, perform operations, etc.)
     # For example, you can save it to a specific location
+    print("Saving file")
     file.save("uploaded_image.jpg")
+    print("Starting prediction")
     sam.predict(
         "uploaded_image.jpg", text_prompt, box_threshold=0.24, text_threshold=0.24
     )
     mask_final = sam.masks
     print("Done predicting")
-    return calculate_centroid(mask_final, "data")
-
+    print("Calculating centroids")
+    masks = calculate_centroid(mask_final, "data")
+    print("Done!")
+    return masks
 
 if __name__ == "__main__":
     # Run the Flask app on a local development server
